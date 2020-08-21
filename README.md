@@ -28,4 +28,4 @@ Same as the stack, but updated to work as it should
 Created using a heap
 
 An image where you can see the difference in steps taken:
-![Outputs]https://github.com/AndrewBarzu/8-puzzle/blob/master/Outputs.png
+![Outputs](https://github.com/AndrewBarzu/8-puzzle/blob/master/Outputs.png)
