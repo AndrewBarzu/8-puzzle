@@ -5,7 +5,8 @@ using namespace std;
 
 int main()
 {
-	char initial[10] = "123045786";
+	char initial[10] = "235714086";
+	//char initial[10] = "123045786";
 	char goal[10] = "123456780";
 	int blank = 0, inversions = 0;
 	for (int i = 0; i < 9; i++)
@@ -32,6 +33,7 @@ int main()
 	Solver solver = Solver(initial, goal);
 	cout << "Depth-first search completed in " << solver.dfs(blank) << " steps." << endl;
 	cout << "Breadth-first search completed in " << solver.bfs(blank) << " steps." << endl;
+	cout << "Astar search completed in " << solver.Astar(blank) << " steps." << endl;
 	cout << endl;
 
 	return 0;

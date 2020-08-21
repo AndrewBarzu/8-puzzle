@@ -1,11 +1,4 @@
 #include "Solver.h"
-#include <stdlib.h>
-#include "State.h"
-#include "Stack.h"
-#include "Queue.h"
-#include <string.h>
-#include <unordered_set>
-#include <iostream>
 
 Solver::Solver(char initial[10], char goal[10])
 {
@@ -13,6 +6,22 @@ Solver::Solver(char initial[10], char goal[10])
 	initial_state = atoi(initial);
 	goal_state = atoi(goal);
 	visited = 0;
+}
+
+int Solver::hamming_distance(char* string1, char* string2)
+{
+	int distance = 0;
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = i; j < 9; j++)
+		{
+			if (string1[i] == string2[j])
+			{
+				distance += j - i;
+			}
+		}
+	}
+	return distance;
 }
 
 bool Solver::is_visited(int current_state)
@@ -127,6 +136,54 @@ int Solver::bfs(int blank_spot)
 		new_state = current_state;
 		new_state.move_right();
 		queue.push(new_state);
+	}
+	return step;
+}
+
+int Solver::Astar(int blank_spot)
+{
+	if (visited != 0)
+		delete visited;
+
+	visited = new std::unordered_set<int>;
+
+	int step = 0;
+	PriorityQueue queue = PriorityQueue();
+	State initialState = State(initial_state_string, blank_spot);
+	queue.push(initialState, 1);
+
+	while (queue.size() > 0)
+	{
+		State current_state = queue.pop();
+		char* state = current_state.puzzle;
+		int int_state = atoi(state);
+
+		if (is_visited(int_state))
+
+			continue;
+
+		if (goal_state == int_state)
+			break;
+
+		visited->insert(int_state);
+		step++;
+		int blank = current_state.blank;
+
+		State new_state = current_state;
+		new_state.move_up();
+		queue.push(new_state, hamming_distance(new_state.puzzle, goal_state_string));
+
+		new_state = current_state;
+		new_state.move_down();
+		queue.push(new_state, hamming_distance(new_state.puzzle, goal_state_string));
+
+		new_state = current_state;
+		new_state.move_left();
+		queue.push(new_state, hamming_distance(new_state.puzzle, goal_state_string));
+
+		new_state = current_state;
+		new_state.move_right();
+		queue.push(new_state, hamming_distance(new_state.puzzle, goal_state_string));
 	}
 	return step;
 }
